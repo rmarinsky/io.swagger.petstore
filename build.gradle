@@ -1,0 +1,47 @@
+group 'io.swagger.petstore'
+version '0.1'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.opengl-8080:assertjGen-gradle-plugin:2.0.0"
+    }
+}
+
+apply plugin: "com.github.opengl-BOBO.assertjGen2"
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+ext {
+    restAssuredVer = "3.0.7"
+}
+
+dependencies {
+    compile group: 'junit', name: 'junit', version: '4.12'
+    compile "io.rest-assured:scala-support:$restAssuredVer"
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+    compile 'org.assertj:assertj-core:3.5.2'
+}
+
+assertjGen {
+    packages = ['io.swagger.petstore.models.pet']
+    targetDir = "src/main/java"
+
+    hierarchical = true
+    entryPointClassPackage = 'io.swagger.petstore.assertions'
+    generateAssertionsInPackage = 'io.swagger.petstore.assertions.pet'
+    generateAssertionsForAllFields = true
+    generateBddAssertions = false
+    generateSoftAssertions = false
+    generateJUnitSoftAssertions = false
+    generateAssertionsForAllFields = true
+}
